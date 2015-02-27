@@ -1,0 +1,4 @@
+include *.txt
+recursive-include pyopt *.py
+recursive-exclude pyopt/.ropeproject *
+recursive-exclude pyopt/.idea *
