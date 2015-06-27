@@ -1,9 +1,9 @@
 __author__ = 'Alex Baranov'
 
-#from reports import ReportsBuilder
+from reports import ReportsBuilder
 from pdp_packing import stable_non_blocking_container_selector
 from orthogonal_packing import orthogonal_packer
-#from drawer import BoxDrawer
+from drawer import BoxDrawer
 from rpacker import RPacker
 from box import Box
 from optparse import OptionParser
@@ -21,9 +21,13 @@ parser.add_option("-r", "--route", dest="route",
                   help="the route data")
 parser.add_option("-c", "--container", dest="container",
                   help="the route data")
+parser.add_option("-a", "--axes", dest="axes", default="1 0 2",
+                  help="the axes priorities")
 parser.add_option("-p", "--partial-route", action="store_true", dest="is_partial_route",
                   help="specifies whether the route is partial")
 
+parser.add_option("-g", "--draw-result", action="store_true", dest="draw_results",
+                  help="specifies whether the route is partial")
 
 
 def pack_boxes(boxes, container,
@@ -48,7 +52,7 @@ def pack_boxes(boxes, container,
                              allowed_rotation_axes=allowed_rotation_axes,
                              **kwargs)
     return is_packing_successful(result, params, boxes, container, is_partial_route), result, params
- 
+
 
 def read_korobki_file(box_number, korobki_file):
     """
@@ -158,34 +162,39 @@ def is_packing_successful(packing_results, packing_params, boxes_to_pack, contai
     else:
         return len(packing_params['actions']) == len(boxes_to_pack)
 
-#def draw_results(result, params, container):
-#    BoxDrawer.show_packing_results(result, params, (container,))
-#
-#
-#def show_reports(params, container, **kwargs):
-#    ReportsBuilder.show_dynamic_report(params, container, **kwargs)
+
+def draw_results(result, params, container):
+    BoxDrawer.show_packing_results(result, params, (container,))
+
+
+def show_reports(params, container, **kwargs):
+    ReportsBuilder.show_dynamic_report(params, container, **kwargs)
 
 
 if __name__ == "__main__":
     (options, args) = parser.parse_args()
+    paxes = tuple([int(x.strip()) for x in options.axes.split(" ")])
+    print paxes
     print options
 
     # read the korobki file first
     boxes = read_korobki_file(options.boxes_count, options.boxes_filename)
     container = parse_container_data(options.container)
-    res = pack_route(boxes, options.route, container, 
-                     place_axes=(1, 0, 2), 
-                     is_partial_route=options.is_partial_route)
+    res = pack_route(boxes, options.route, container,
+                     is_partial_route=options.is_partial_route,
+                     place_axes=(2, 1, 0), #the container selection criteria. Getting the lowest containe
+                     axes_priorities=paxes)
     print res[0]
 
     # saving to file
     with open(options.output_filename, 'w') as o:
         o.writelines(map(lambda s: repr(s) + '\n', res))
 
-    #price, packed_boxes, params, container = pack_from_files(4,
+    # price, packed_boxes, params, container = pack_from_files(4,
     #                                                         'Korobki.txt',
     #                                                         'PDP.txt',
     #                                                         place_axes=(1, 0, 2))
     #print('Route price is ' + price)
     #show_reports(params, container, pdf=False)
-    #draw_results(packed_boxes, params, container)
+    if options.draw_results:
+        draw_results(res[1], res[2], container)
