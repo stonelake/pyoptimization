@@ -16,6 +16,10 @@ def get_non_blocking_boxes(current_box, all_boxes, packed_boxes):
     f = filter(lambda x: x.name == current_box.name and x.kind == "unpack", all_boxes)
     current_unpack = f[0] if f else None
 
+    # unpack missing. do now allow to block any of currently packed boxes
+    if current_unpack is None:
+        return packed_boxes[:]
+
     if not current_box_index or not current_unpack:
         return result
 
@@ -159,7 +163,6 @@ def stable_non_blocking_container_selector(available_containers,
     # return none if we can't find valid containers
     if not valid_containers:
         return None, None
-
     return sorted(valid_containers, key=lambda cont: itemgetter(*place_axes)(cont[0].polus))[0]
 
 

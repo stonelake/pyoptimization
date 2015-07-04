@@ -1,3 +1,3 @@
-True
-[]
-{'loading': [0.0128, 0.020456, 0.043336, 0.050536, 0.083596, 0.070796, 0.06314, 0.04026, 0.03306, 0], 'weights': [58.0, 128.0, 221.0, 290.0, 348.0, 290.0, 220.0, 127.0, 58.0, 0], 'max_x': [32.0, 33.0, 33.0, 33.0, 38.0, 38.0, 38.0, 38.0, 38.0, 0], 'actions': [('pack', <box.Box object at 0x0592B2F0>), ('pack', <box.Box object at 0x0592B370>), ('pack', <box.Box object at 0x0592B3F0>), ('pack', <box.Box object at 0x0592B510>), ('pack', <box.Box object at 0x0592B5B0>), ('unpack', <box.Box object at 0x0592B2F0>), ('unpack', <box.Box object at 0x0592B370>), ('unpack', <box.Box object at 0x0592B3F0>), ('unpack', <box.Box object at 0x0592B510>), ('unpack', <box.Box object at 0x0592B5B0>)]}
+False
+[<box.Box object at 0x05C26130>]
+{'loading': [0.061248, 0, 0.1024], 'weights': [70.0, 0, 58.0], 'max_x': [8.0, 0, 8.0], 'actions': [('pack', <box.Box object at 0x05C26070>), ('unpack', <box.Box object at 0x05C26070>), ('pack', <box.Box object at 0x05C26130>)]}

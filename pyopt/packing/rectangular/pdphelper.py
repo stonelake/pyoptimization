@@ -24,7 +24,7 @@ parser.add_option("-c", "--container", dest="container",
 parser.add_option("-a", "--axes", dest="axes", default="1 0 2",
                   help="the axes priorities")
 parser.add_option("-p", "--partial-route", action="store_true", dest="is_partial_route",
-                  help="specifies whether the route is partial")
+                  help="specifies whether the route is partial", default=False)
 
 parser.add_option("-g", "--draw-result", action="store_true", dest="draw_results",
                   help="specifies whether the route is partial")
